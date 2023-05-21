@@ -6,12 +6,15 @@ const { Category, Product } = require("../../models");
 router.get("/", (req, res) => {
   // find all categories
   Category.findAll({
-    include: Product,
+    include: [Product],
   })
     .then((categories) => {
       res.json(categories);
     })
-    .catch((err) => res.status.json({ "message: Internal server error": err }));
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ "message: Internal server error": err });
+    });
 });
 
 router.get("/:id", (req, res) => {
